@@ -1,0 +1,324 @@
+/* Портфолио — статичная копия оформления Notion (notion.site), светлая и тёмная тема */
+
+:root {
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  --mono: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace;
+
+  --bg: #ffffff;
+  --text: rgb(44, 44, 43);
+  --text-soft: rgb(125, 122, 117);
+  --link-underline: rgba(55, 53, 47, 0.4);
+  --divider: rgba(28, 19, 1, 0.11);
+  --border: rgb(230, 229, 227);
+  --th-bg: rgb(247, 246, 243);
+  --hover: rgba(55, 53, 47, 0.06);
+  --code-bg: rgba(135, 131, 120, 0.15);
+  --code-text: #eb5757;
+  --topbar-bg: rgba(255, 255, 255, 0.92);
+
+  /* Notion: цвета текста */
+  --c-gray: rgb(125, 122, 117);
+  --c-brown: rgb(159, 107, 83);
+  --c-orange: rgb(217, 115, 13);
+  --c-yellow: rgb(203, 145, 47);
+  --c-green: rgb(68, 131, 97);
+  --c-blue: rgb(51, 126, 169);
+  --c-purple: rgb(144, 101, 176);
+  --c-pink: rgb(193, 76, 138);
+  --c-red: rgb(212, 76, 71);
+
+  /* Notion: цвета фона (callout, строки таблиц) */
+  --bg-gray: rgb(249, 248, 247);
+  --bg-brown: rgb(246, 239, 235);
+  --bg-orange: rgb(251, 235, 222);
+  --bg-yellow: rgb(249, 243, 220);
+  --bg-green: rgb(232, 241, 236);
+  --bg-blue: rgb(229, 239, 247);
+  --bg-purple: rgb(243, 237, 248);
+  --bg-pink: rgb(250, 237, 243);
+  --bg-red: rgb(252, 233, 231);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191919;
+    --text: rgba(255, 255, 255, 0.81);
+    --text-soft: rgba(255, 255, 255, 0.46);
+    --link-underline: rgba(255, 255, 255, 0.35);
+    --divider: rgba(255, 255, 255, 0.094);
+    --border: rgb(55, 55, 55);
+    --th-bg: rgb(32, 32, 32);
+    --hover: rgba(255, 255, 255, 0.055);
+    --code-bg: rgba(135, 131, 120, 0.15);
+    --code-text: #ff7369;
+    --topbar-bg: rgba(25, 25, 25, 0.92);
+
+    --c-gray: rgb(155, 155, 155);
+    --c-brown: rgb(186, 133, 111);
+    --c-orange: rgb(199, 125, 72);
+    --c-yellow: rgb(202, 152, 73);
+    --c-green: rgb(82, 158, 114);
+    --c-blue: rgb(55, 154, 211);
+    --c-purple: rgb(157, 104, 211);
+    --c-pink: rgb(209, 87, 150);
+    --c-red: rgb(230, 91, 91);
+
+    --bg-gray: rgb(37, 37, 37);
+    --bg-brown: rgb(46, 39, 35);
+    --bg-orange: rgb(56, 40, 30);
+    --bg-yellow: rgb(56, 46, 30);
+    --bg-green: rgb(34, 43, 38);
+    --bg-blue: rgb(29, 40, 46);
+    --bg-purple: rgb(43, 36, 49);
+    --bg-pink: rgb(48, 34, 40);
+    --bg-red: rgb(54, 36, 34);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: auto;
+}
+
+/* ---------- верхняя панель с «хлебными крошками» ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  height: 45px;
+  display: flex; align-items: center;
+  padding: 0 12px;
+  background: var(--topbar-bg);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.crumbs { display: flex; align-items: center; min-width: 0; font-size: 14px; line-height: 1.2; overflow: hidden; }
+.crumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-width: 0; max-width: 240px;
+  padding: 2px 6px; border-radius: 6px;
+  color: var(--text); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+a.crumb:hover { background: var(--hover); }
+.crumb-current { flex: 1 1 auto; }
+.crumb-icon { flex: none; font-size: 14px; }
+.crumb-sep { color: var(--text-soft); opacity: .6; padding: 0 2px; flex: none; }
+
+/* ---------- страница ---------- */
+.page {
+  width: 100%;
+  max-width: 900px;            /* 720 контент + поля 90, как в Notion */
+  margin: 0 auto;
+  padding: 0 90px 30vh;
+}
+.page-index .page { padding-top: 64px; }
+.page-header { padding-top: 80px; padding-bottom: 4px; }
+.page-icon { font-size: 78px; line-height: 1.1; height: 78px; margin: 0 0 20px; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", var(--font); }
+.page-title {
+  margin: 0 0 8px;
+  padding: 3px 2px;
+  font-size: 40px; line-height: 1.2; font-weight: 700;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+}
+.page-content { padding-top: 8px; }
+
+/* ---------- текст ---------- */
+.n-text { margin: 0; padding: 8px 2px; min-height: 40px; white-space: pre-wrap; overflow-wrap: break-word; }
+.n-empty { height: 40px; }
+.n-indent { padding-left: 24px; }
+strong { font-weight: 600; }
+code { font-family: var(--mono); font-size: 85%; padding: 0.2em 0.4em; border-radius: 4px; background: var(--code-bg); color: var(--code-text); }
+
+.n-link { color: inherit; text-decoration: underline; text-decoration-color: var(--link-underline); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.n-link:hover { text-decoration-color: currentColor; }
+.n-mention { color: inherit; text-decoration: none; white-space: normal; }
+.n-mention-icon { margin-right: 3px; }
+.n-mention-title { text-decoration: underline; text-decoration-color: var(--link-underline); text-underline-offset: 2px; font-weight: 500; }
+.n-mention:hover .n-mention-title { text-decoration-color: currentColor; }
+
+/* ---------- заголовки ---------- */
+.n-h1, .n-h2, .n-h3 { font-weight: 600; padding: 3px 2px; margin-bottom: 1px; overflow-wrap: break-word; scroll-margin-top: 60px; }
+.n-h1 { font-size: 30px; line-height: 1.3; margin-top: 32px; margin-bottom: 4px; }
+.n-h2 { font-size: 24px; line-height: 1.3; margin-top: 22px; margin-bottom: 10px; }
+.n-h3 { font-size: 20px; line-height: 1.3; margin-top: 16px; margin-bottom: 12px; }
+.n-column > .n-h1:first-child, .n-column > .n-h2:first-child, .n-column > .n-h3:first-child { margin-top: 0; }
+.page-content > :first-child.n-h1, .page-content > :first-child.n-h2 { margin-top: 8px; }
+
+/* ---------- списки ---------- */
+.n-list { margin: 1px 0; padding-left: 1.7em; }
+.n-li { padding: 5px 2px 6px 2px; margin: 0; overflow-wrap: break-word; }
+.n-li::marker { font-size: 1em; }
+.n-bulleted_list { list-style: disc; }
+.n-bulleted_list .n-bulleted_list { list-style: circle; }
+.n-li > .n-list { margin-top: 2px; }
+
+/* ---------- разделитель ---------- */
+.n-divider { border: 0; height: 1px; background: var(--divider); margin: 6px 0; padding: 0; }
+.n-divider { margin-top: 6px; margin-bottom: 6px; }
+
+/* ---------- цитата ---------- */
+.n-quote { margin: 8px 0; padding: 0 2px 0 14px; border-left: 3px solid currentColor; white-space: pre-wrap; }
+
+/* ---------- callout ---------- */
+.n-callout {
+  display: flex; gap: 8px;
+  margin: 8px 0;
+  padding: 12px 12px 12px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--bg-gray);
+}
+.n-callout-icon { flex: none; width: 24px; height: 24px; margin-top: 8px; font-size: 20px; line-height: 24px; text-align: center; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", var(--font); }
+.n-callout-body { flex: 1 1 auto; min-width: 0; padding-left: 2px; }
+.n-callout-body > :first-child { margin-top: 0; }
+.n-callout-body > :last-child { margin-bottom: 0; }
+
+/* ---------- колонки ---------- */
+.n-columns { display: flex; gap: 46px; margin: 0; padding: 12px 0; }
+.n-column { flex: var(--r) 1 0; min-width: 0; }
+.n-column > :first-child { margin-top: 0; }
+@media (max-width: 719px) {
+  .n-columns { flex-direction: column; gap: 4px; padding: 4px 0; }
+  .n-column { flex: 1 1 auto; }
+}
+
+/* ---------- изображения и видео ---------- */
+.n-image, .n-video { margin: 8px 0; padding: 0; }
+.n-image img { display: block; width: 100%; height: auto; border-radius: 2px; }
+.n-video video { display: block; width: 100%; height: auto; border-radius: 4px; background: #000; }
+figcaption { padding: 6px 2px 6px; font-size: 14px; line-height: 1.4; color: var(--text-soft); overflow-wrap: break-word; }
+.page-index .n-column .n-image:first-child { margin-top: 4px; }
+
+/* ---------- таблицы ---------- */
+.n-table-wrap { margin: 8px 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.n-table { border-collapse: collapse; width: 100%; font-size: 14px; line-height: 1.5; }
+.n-cell {
+  border: 1px solid var(--border);
+  padding: 7px 9px;
+  min-width: 120px;
+  vertical-align: top;
+  text-align: left;
+  font-weight: 400;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+th.n-cell { background: var(--th-bg); font-weight: 500; }
+
+/* ---------- toggle ---------- */
+.n-toggle { margin: 0; padding: 5px 2px 6px; }
+.n-toggle > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: flex-start; gap: 4px;
+  padding: 0; border-radius: 4px;
+}
+.n-toggle > summary::-webkit-details-marker { display: none; }
+.n-toggle > summary::before {
+  content: ""; flex: none;
+  width: 24px; height: 24px; margin-left: -2px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l6 5-6 5z'/%3E%3C/svg%3E") center / 20px no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l6 5-6 5z'/%3E%3C/svg%3E") center / 20px no-repeat;
+  transition: transform .15s ease;
+}
+.n-toggle[open] > summary::before { transform: rotate(90deg); }
+.n-toggle > summary:hover::before { opacity: .7; }
+.n-toggle-body { padding-left: 26px; padding-top: 2px; }
+
+/* ---------- оглавление ---------- */
+.n-toc { margin: 8px 0; padding: 0; }
+.n-toc ul { list-style: none; margin: 0; padding: 0; }
+.n-toc li a {
+  display: block; padding: 6px 2px; border-radius: 4px;
+  color: var(--text-soft); text-decoration: none;
+  font-size: 14px; line-height: 1.3;
+  text-decoration: underline; text-decoration-color: var(--divider); text-underline-offset: 3px;
+}
+.n-toc li a:hover { background: var(--hover); }
+.n-toc .toc-l2 a { padding-left: 26px; }
+.n-toc .toc-l3 a { padding-left: 50px; }
+
+/* ---------- ссылка на подстраницу ---------- */
+.n-page-link {
+  display: flex; align-items: center; gap: 6px;
+  margin: 1px 0; padding: 5px 2px; border-radius: 4px;
+  color: inherit; text-decoration: none; line-height: 1.5;
+}
+.n-page-link:hover { background: var(--hover); }
+.n-page-icon { flex: none; width: 22px; text-align: center; font-size: 18px; }
+.n-page-title { font-weight: 500; text-decoration: underline; text-decoration-color: var(--link-underline); text-underline-offset: 2px; }
+
+/* ---------- вкладки (tabs) ---------- */
+.n-tabs { margin: 8px 0; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 4px; border-bottom: 0; }
+.n-tab-input { position: absolute; opacity: 0; pointer-events: none; }
+.n-tab-label {
+  cursor: pointer; padding: 6px 10px; border-radius: 6px 6px 0 0;
+  font-size: 14px; color: var(--text-soft);
+  border-bottom: 2px solid transparent;
+}
+.n-tab-label:hover { background: var(--hover); }
+.n-tab-input:checked + .n-tab-label { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
+.n-tab-input:focus-visible + .n-tab-label { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+.n-tab-panels { flex: 1 0 100%; border-top: 1px solid var(--divider); padding-top: 8px; }
+.n-tab-panel { display: none; }
+.n-tabs .n-tab-input:nth-of-type(1):checked ~ .n-tab-panels > .n-tab-panel:nth-child(1),
+.n-tabs .n-tab-input:nth-of-type(2):checked ~ .n-tab-panels > .n-tab-panel:nth-child(2),
+.n-tabs .n-tab-input:nth-of-type(3):checked ~ .n-tab-panels > .n-tab-panel:nth-child(3),
+.n-tabs .n-tab-input:nth-of-type(4):checked ~ .n-tab-panels > .n-tab-panel:nth-child(4),
+.n-tabs .n-tab-input:nth-of-type(5):checked ~ .n-tab-panels > .n-tab-panel:nth-child(5),
+.n-tabs .n-tab-input:nth-of-type(6):checked ~ .n-tab-panels > .n-tab-panel:nth-child(6),
+.n-tabs .n-tab-input:nth-of-type(7):checked ~ .n-tab-panels > .n-tab-panel:nth-child(7),
+.n-tabs .n-tab-input:nth-of-type(8):checked ~ .n-tab-panels > .n-tab-panel:nth-child(8) { display: block; }
+
+/* ---------- цвета Notion ---------- */
+.c-gray { color: var(--c-gray); }
+.c-brown { color: var(--c-brown); }
+.c-orange { color: var(--c-orange); }
+.c-yellow { color: var(--c-yellow); }
+.c-green { color: var(--c-green); }
+.c-blue { color: var(--c-blue); }
+.c-purple { color: var(--c-purple); }
+.c-pink { color: var(--c-pink); }
+.c-red { color: var(--c-red); }
+.c-gray_bg { background: var(--bg-gray); }
+.c-brown_bg { background: var(--bg-brown); }
+.c-orange_bg { background: var(--bg-orange); }
+.c-yellow_bg { background: var(--bg-yellow); }
+.c-green_bg { background: var(--bg-green); }
+.c-blue_bg { background: var(--bg-blue); }
+.c-purple_bg { background: var(--bg-purple); }
+.c-pink_bg { background: var(--bg-pink); }
+.c-red_bg { background: var(--bg-red); }
+.n-text.c-gray .n-link, .n-text.c-gray a { color: var(--c-gray); }
+tr.c-red_bg > .n-cell, tr.c-gray_bg > .n-cell, tr.c-orange_bg > .n-cell, tr.c-blue_bg > .n-cell, tr.c-green_bg > .n-cell, tr.c-yellow_bg > .n-cell { background: inherit; }
+
+/* ---------- главная ---------- */
+.page-index .n-columns:first-child .n-image img { border-radius: 0; }
+.page-index .n-columns { padding: 12px 0; }
+
+/* ---------- мобильная ширина ---------- */
+@media (max-width: 719px) {
+  .page { padding-left: 16px; padding-right: 16px; }
+  .page-header { padding-top: 36px; }
+  .page-index .page { padding-top: 24px; }
+  .page-icon { font-size: 56px; height: 60px; margin-bottom: 12px; }
+  .page-title { font-size: 30px; }
+  .n-h1 { font-size: 26px; margin-top: 24px; }
+  .n-h2 { font-size: 22px; margin-top: 18px; }
+  .n-h3 { font-size: 18px; }
+  .crumb { max-width: 160px; }
+  .page-index .n-columns:first-child .n-column:first-child { max-width: 220px; }
+}
+
+@media print {
+  .topbar { display: none; }
+  .page { max-width: none; padding: 0; }
+  .n-toggle-body { display: block !important; }
+}
